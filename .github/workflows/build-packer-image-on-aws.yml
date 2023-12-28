@@ -6,25 +6,18 @@ on:
   workflow_dispatch: 
 env:
   AWS_REGION: "eu-central-1"
-  PRODUCT_VERSION: "1.8.6" # or: "latest"
 jobs:
   build-ami:
     runs-on: ubuntu-latest
     name: Run Packer
-    env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     container:
         image: hashicorp/packer:latest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
-
-    #   - name: Setup `packer`
-    #     uses: hashicorp/setup-packer@main
-    #     id: setup
-    #     with:
-    #       version: ${{ env.PRODUCT_VERSION }}
 
       - name: Run `packer init`
         id: init
