@@ -1,4 +1,4 @@
-name: Build Packer Image on AWS.
+name: Build Packer Image on AWS
 on:
   push:
     branches:
@@ -6,25 +6,25 @@ on:
   workflow_dispatch: 
 env:
   AWS_REGION: "eu-central-1"
+  PRODUCT_VERSION: "2.0.1" # or: "latest"
 jobs:
   build-ami:
     runs-on: ubuntu-latest
+    name: Run Packer
     steps:
       - name: Get code
         uses: actions/checkout@v3
 
-      - name: Set up AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Setup `packer`
+        uses: hashicorp/setup-packer@main
+        id: setup
         with:
-          aws-region: ${{ env.AWS_REGION }}
-        env: 
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          version: ${{ env.PRODUCT_VERSION }}
 
-      - name: Validate AMI with Packer in Docker
-        run: |
-            docker run --rm -v ${PWD}:/workspace -w /workspace hashicorp/packer:1.10.0 validate .
+      - name: Run `packer init`
+        id: init
+        run: "packer init ."
 
-      - name: Build AMI with Packer in Docker
-        run: |
-          docker run --rm -v ${PWD}:/workspace -w /workspace hashicorp/packer:1.10.0 build .
+      - name: Run `packer validate`
+        id: validate
+        run: "packer validate ."
