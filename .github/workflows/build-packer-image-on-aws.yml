@@ -6,7 +6,7 @@ on:
   workflow_dispatch: 
 env:
   AWS_REGION: "eu-central-1"
-  PRODUCT_VERSION: "2.0.1" # or: "latest"
+  PRODUCT_VERSION: "1.8.6" # or: "latest"
 jobs:
   build-ami:
     runs-on: ubuntu-latest
