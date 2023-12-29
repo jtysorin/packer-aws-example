@@ -9,6 +9,9 @@ jobs:
   tf-apply:
     runs-on: ubuntu-latest
     name: Run Terraform apply
+    defaults:
+        run:
+          working-directory: terraform
     # container:
     #   image: hashicorp/terraform:latest
     steps:
@@ -23,6 +26,10 @@ jobs:
       - name: Run `terraform init`
         id: init
         run: "terraform init"
+
+      - name: Run `terraform validate`
+        id: validate
+        run: "terraform validate"
 
       - name: Run `terraform plan`
         id: plan
