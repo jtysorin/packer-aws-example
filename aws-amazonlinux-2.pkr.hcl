@@ -33,11 +33,6 @@ build {
     "source.amazon-ebs.amazon-ebs-amazonlinux-2"
   ]
 
-  provisioner "file" {
-    source      = "files"
-    destination = "/tmp/"
-  }
-
   provisioner "shell" {
     inline = [
       "echo Installing Updates",
