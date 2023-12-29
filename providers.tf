@@ -5,6 +5,13 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  cloud {
+    organization = "jtysorin"
+    workspaces {
+      name = "myapp-workspace"
+    }
+  }
 }
 
 # Configure the AWS Provider

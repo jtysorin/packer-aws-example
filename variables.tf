@@ -9,11 +9,11 @@ variable "instance_type" {
 }
 
 variable "appname" {
-  type        = string
+  type    = string
   default = "nginx"
 }
 
 variable "createdby" {
-  type        = string
+  type    = string
   default = "Sorin"
 }
