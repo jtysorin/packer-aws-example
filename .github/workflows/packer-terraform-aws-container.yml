@@ -31,16 +31,22 @@ jobs:
     runs-on: ubuntu-latest
     name: Run Terraform
     needs: build-ami
-    container:
-      image: hashicorp/terraform:latest
     steps:
       - name: Get code
         uses: actions/checkout@v3
-        if: needs.build-ami.result == 'success'
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Run `terraform init`
         id: init
         run: "terraform init"
+
+      - name: Run `terraform validate`
+        id: validate
+        run: "terraform validate"
 
       - name: Run `terraform plan`
         id: plan

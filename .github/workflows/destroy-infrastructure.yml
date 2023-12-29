@@ -9,8 +9,6 @@ jobs:
   tf-destroy:
     runs-on: ubuntu-latest
     name: Run Terraform destroy
-    # container:
-    #   image: hashicorp/terraform:latest
     steps:
       - name: Get code
         uses: actions/checkout@v3
