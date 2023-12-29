@@ -6,15 +6,14 @@ on:
   workflow_dispatch: 
 env:
   AWS_REGION: "eu-central-1"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 jobs:
   build-ami:
     runs-on: ubuntu-latest
     name: Run Packer
     container:
         image: hashicorp/packer:latest
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -30,3 +29,26 @@ jobs:
       - name: Build Image
         id: build
         run: packer build .
+  
+  run-instance:
+    runs-on: ubuntu-latest
+    name: Run Terraform
+    needs: build-ami
+    container:
+      image: hashicorp/terraform:latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+        if: needs.build-ami.result == 'success'
+
+      - name: Run `terraform init`
+        id: init
+        run: "terraform init"
+
+      - name: Run `terraform plan`
+        id: plan
+        run: "terraform plan"
+
+      - name: Run `terraform apply`
+        id: apply
+        run: "terraform apply -auto-approve"
