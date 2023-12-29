@@ -11,8 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Run Terraform apply
     defaults:
-        run:
-            working-directory: ${{ env.tf_actions_working_dir }}
+      run:
+        working-directory: ${{ env.tf_actions_working_dir }}
+    permissions: write-all  
     # container:
     #   image: hashicorp/terraform:latest
     steps:
