@@ -1,4 +1,4 @@
-name: Build Packer Image on AWS with packer container
+name: Build Packer Image on AWS - Create inftrastructure with Terraform - in containers
 on:
   push:
     branches:

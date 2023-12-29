@@ -1,4 +1,4 @@
-name: Build Packer Image on AWS with packer container
+name: Destroy Terraform infrastructure on AWS
 on:
   workflow_dispatch: 
 env:
